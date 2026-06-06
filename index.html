@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vista Alegre Suites · Comunidad de Propietarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0e8ca0;
+  --primary-dark: #0a6e7e;
+  --gold: #c8a45c;
+  --dark: #1a2332;
+  --text: #333333;
+  --text-light: #666666;
+  --bg: #fdfbf7;
+  --bg-alt: #f0ece4;
+  --white: #ffffff;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --transition: all 0.3s ease;
+  --red-soft: #e74c3c;
+  --orange-soft: #f39c12;
+  --blue-soft: #3498db;
+  --green-soft: #27ae60;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+  font-size: 16px;
+}
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 600; line-height: 1.3; }
+a { color: var(--primary); text-decoration: none; transition: var(--transition); }
+a:hover { color: var(--primary-dark); }
+img { max-width: 100%; height: auto; }
+
+/* LANGUAGE */
+body.lang-es .lang-en, body.lang-es .lang-nl { display: none !important; }
+body.lang-en .lang-es, body.lang-en .lang-nl { display: none !important; }
+body.lang-nl .lang-es, body.lang-nl .lang-en { display: none !important; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(26,35,50,0.95);
+  backdrop-filter: blur(10px);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+}
+.nav-logo { height: 40px; }
+.nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.85); font-size: 0.9rem; font-weight: 400;
+  letter-spacing: 0.5px; transition: var(--transition);
+}
+.nav-links a:hover { color: var(--gold); }
+.lang-switcher { display: flex; gap: 0.4rem; margin-left: 1rem; }
+.lang-btn {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7); padding: 4px 10px; border-radius: 4px;
+  cursor: pointer; font-size: 0.75rem; font-weight: 600;
+  transition: var(--transition); font-family: 'Inter', sans-serif;
+}
+.lang-btn:hover, .lang-btn.active {
+  background: var(--gold); border-color: var(--gold); color: var(--dark);
+}
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  background: none; border: none; padding: 5px;
+}
+.hamburger span { display: block; width: 25px; height: 2px; background: white; transition: var(--transition); }
+
+/* HERO */
+.hero {
+  position: relative; height: 100vh; min-height: 600px;
+  background: url('IMG_2871.JPG') center center / cover no-repeat;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(26,35,50,0.4) 0%, rgba(26,35,50,0.6) 100%);
+}
+.hero-content {
+  position: relative; z-index: 1; text-align: center;
+  color: white; padding: 2rem; max-width: 700px;
+}
+.hero-logo { height: 80px; margin-bottom: 1.5rem; filter: brightness(1.1); }
+.hero-sub { font-size: 1.15rem; opacity: 0.9; font-weight: 300; letter-spacing: 0.5px; }
+.hero-divider { width: 60px; height: 2px; background: var(--gold); margin: 1.2rem auto; }
+.scroll-indicator {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  color: white; opacity: 0.6; font-size: 1.5rem; animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* SECTIONS */
+.section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-alt { background: var(--bg-alt); }
+.section-title { text-align: center; font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--dark); }
+.section-subtitle { text-align: center; color: var(--text-light); font-size: 1rem; margin-bottom: 3rem; font-weight: 300; }
+.section-line { width: 50px; height: 3px; background: var(--gold); margin: 0.8rem auto 1.5rem; }
+
+/* INTRO */
+.intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.intro-text { font-size: 1.05rem; line-height: 1.8; color: var(--text-light); }
+.intro-img { border-radius: var(--radius); box-shadow: var(--shadow-lg); aspect-ratio: 4/3; object-fit: cover; width: 100%; }
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; }
+.gallery img { width: 100%; height: 220px; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); transition: var(--transition); }
+.gallery img:hover { transform: scale(1.03); box-shadow: var(--shadow-lg); }
+
+/* AVISOS */
+.avisos-container { max-width: 800px; margin: 0 auto; }
+.aviso-card {
+  background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 1.5rem 1.8rem; margin-bottom: 1rem; border-left: 4px solid var(--primary);
+  transition: var(--transition);
+}
+.aviso-card:hover { box-shadow: var(--shadow-lg); transform: translateX(4px); }
+.aviso-card.urgente { border-left-color: var(--red-soft); }
+.aviso-card.aviso { border-left-color: var(--orange-soft); }
+.aviso-card.info { border-left-color: var(--blue-soft); }
+.aviso-card.ok { border-left-color: var(--green-soft); }
+.aviso-tag {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;
+  text-transform: uppercase; margin-bottom: 0.6rem; color: white;
+}
+.aviso-tag.urgente { background: var(--red-soft); }
+.aviso-tag.aviso { background: var(--orange-soft); }
+.aviso-tag.info { background: var(--blue-soft); }
+.aviso-tag.ok { background: var(--green-soft); }
+.aviso-date { font-size: 0.78rem; color: var(--text-light); margin-bottom: 0.4rem; font-weight: 500; }
+.aviso-card h4 { font-size: 1.05rem; color: var(--dark); margin-bottom: 0.4rem; }
+.aviso-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.6; }
+
+/* ACCORDION */
+.accordion { max-width: 900px; margin: 0 auto; }
+.accordion-item { margin-bottom: 0.5rem; border-radius: var(--radius); overflow: hidden; background: var(--white); box-shadow: var(--shadow); }
+.accordion-btn {
+  width: 100%; padding: 1.2rem 1.5rem; border: none; background: var(--white);
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; font-family: 'Playfair Display', serif; font-size: 1.1rem;
+  color: var(--dark); font-weight: 600; text-align: left; transition: var(--transition);
+}
+.accordion-btn:hover { background: #f8f6f2; }
+.accordion-btn.active { background: var(--primary); color: white; }
+.accordion-icon { font-size: 1.3rem; font-weight: 300; transition: transform 0.3s; font-family: 'Inter', sans-serif; }
+.accordion-btn.active .accordion-icon { transform: rotate(45deg); }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 1.5rem; background: var(--white); }
+.accordion-content.open { max-height: 5000px; padding: 1rem 1.5rem 1.5rem; }
+.accordion-content p { margin-bottom: 0.6rem; font-size: 0.95rem; line-height: 1.7; }
+.accordion-content ul { margin: 0.5rem 0 0.8rem 1.2rem; }
+.accordion-content li { margin-bottom: 0.4rem; font-size: 0.93rem; line-height: 1.6; }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.service-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); }
+.service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.service-img { width: 100%; height: 180px; object-fit: cover; }
+.service-body { padding: 1.5rem; }
+.service-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.service-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--dark); }
+.service-card p { font-size: 0.9rem; color: var(--text-light); }
+.service-hours { display: inline-block; margin-top: 0.8rem; padding: 4px 12px; background: var(--bg-alt); border-radius: 20px; font-size: 0.8rem; color: var(--primary-dark); font-weight: 500; }
+
+/* FORM & DOCS */
+.form-wrapper { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 2rem; }
+.form-wrapper p { color: var(--text-light); margin-bottom: 1.5rem; font-size: 1rem; }
+.btn-primary { display: inline-block; padding: 14px 36px; background: var(--primary); color: white; border-radius: 30px; font-weight: 600; font-size: 1rem; transition: var(--transition); border: none; cursor: pointer; text-decoration: none; }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); color: white; }
+.docs-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); max-width: 600px; margin: 0 auto; text-align: center; padding: 3rem 2rem; }
+.docs-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.docs-card p { color: var(--text-light); margin-bottom: 1.5rem; }
+
+/* CONTACTS */
+.contacts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.contact-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2rem; text-align: center; transition: var(--transition); }
+.contact-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.contact-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-family: 'Playfair Display', serif; font-weight: 700; }
+.contact-card h4 { font-size: 1.1rem; color: var(--dark); margin-bottom: 0.3rem; }
+.contact-role { font-size: 0.85rem; color: var(--primary); font-weight: 500; margin-bottom: 0.8rem; }
+.contact-email { font-size: 0.85rem; color: var(--text-light); word-break: break-all; }
+.contact-note { font-size: 0.82rem; color: var(--text-light); margin-top: 0.5rem; font-style: italic; }
+.btn-contact { display: inline-block; margin-top: 1rem; padding: 8px 20px; background: var(--bg-alt); color: var(--primary-dark); border-radius: 20px; font-size: 0.82rem; font-weight: 500; transition: var(--transition); }
+.btn-contact:hover { background: var(--primary); color: white; }
+
+/* FOOTER */
+footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 2.5rem 2rem; font-size: 0.85rem; }
+footer a { color: var(--gold); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: rgba(26,35,50,0.98); padding: 1.5rem 2rem; gap: 1rem; }
+  .nav-links.open { display: flex; }
+  .hamburger { display: flex; }
+  .lang-switcher { margin-left: 0; margin-top: 0.5rem; }
+  .hero h1 { font-size: 2rem; }
+  .hero-sub { font-size: 1rem; }
+  .intro-grid { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .section { padding: 3rem 1.2rem; }
+  .section-title { font-size: 1.7rem; }
+  .contacts-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .gallery { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.7rem; }
+}
+</style>
+</head>
+<body class="lang-es">
+
+<!-- NAV -->
+<nav>
+  <img src="vista_alegre_promo_logo.png" alt="Vista Alegre Suites" class="nav-logo">
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#inicio" onclick="closeMenu()"><span class="lang-es">Inicio</span><span class="lang-en">Home</span><span class="lang-nl">Home</span></a></li>
+    <li><a href="#avisos" onclick="closeMenu()"><span class="lang-es">Avisos</span><span class="lang-en">Notices</span><span class="lang-nl">Mededelingen</span></a></li>
+    <li><a href="#normas" onclick="closeMenu()"><span class="lang-es">Normas</span><span class="lang-en">Rules</span><span class="lang-nl">Regels</span></a></li>
+    <li><a href="#servicios" onclick="closeMenu()"><span class="lang-es">Servicios</span><span class="lang-en">Services</span><span class="lang-nl">Diensten</span></a></li>
+    <li><a href="#formulario" onclick="closeMenu()"><span class="lang-es">Formulario</span><span class="lang-en">Form</span><span class="lang-nl">Formulier</span></a></li>
+    <li><a href="#documentos" onclick="closeMenu()"><span class="lang-es">Documentos</span><span class="lang-en">Documents</span><span class="lang-nl">Documenten</span></a></li>
+    <li><a href="#contactos" onclick="closeMenu()"><span class="lang-es">Contactos</span><span class="lang-en">Contacts</span><span class="lang-nl">Contacten</span></a></li>
+    <li>
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('nl')">NL</button>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <img src="vista_alegre_promo_logo.png" alt="Vista Alegre Suites" class="hero-logo">
+    <div class="hero-divider"></div>
+    <p class="hero-sub lang-es">Comunidad de Propietarios &middot; Ibiza</p>
+    <p class="hero-sub lang-en">Homeowners Association &middot; Ibiza</p>
+    <p class="hero-sub lang-nl">Vereniging van Eigenaren &middot; Ibiza</p>
+  </div>
+  <div class="scroll-indicator">&#8964;</div>
+</section>
+
+<!-- INTRO -->
+<div class="section-alt">
+<div class="section">
+  <h2 class="section-title lang-es">Bienvenidos</h2>
+  <h2 class="section-title lang-en">Welcome</h2>
+  <h2 class="section-title lang-nl">Welkom</h2>
+  <div class="section-line"></div>
+  <div class="intro-grid">
+    <div>
+      <p class="intro-text lang-es">Vista Alegre Suites es una comunidad residencial singular en un entorno privilegiado de Ibiza, pensada para combinar tranquilidad, dise&ntilde;o y uso responsable de sus espacios comunes. Esta web privada re&uacute;ne la informaci&oacute;n esencial para propietarios: normas de convivencia, servicios disponibles, contactos de gesti&oacute;n y un canal claro para consultas, incidencias y sugerencias.</p>
+      <p class="intro-text lang-en">Vista Alegre Suites is a unique residential community in a privileged setting in Ibiza, designed to combine tranquility, design, and responsible use of its common spaces. This private website gathers essential information for owners: community rules, available services, management contacts, and a clear channel for inquiries, incidents, and suggestions.</p>
+      <p class="intro-text lang-nl">Vista Alegre Suites is een unieke woongemeenschap op een bevoorrechte locatie op Ibiza, ontworpen om rust, design en verantwoord gebruik van de gemeenschappelijke ruimtes te combineren. Deze priv&eacute;website verzamelt essenti&euml;le informatie voor eigenaren: huisregels, beschikbare diensten, beheercontacten en een duidelijk kanaal voor vragen, incidenten en suggesties.</p>
+    </div>
+    <img src="IMG_3003.JPG" alt="Vista Alegre Ibiza" class="intro-img">
+  </div>
+  <div class="gallery">
+    <img src="IMG_2871.JPG" alt="Piscina Vista Alegre">
+    <img src="IMG_4791 2.JPG" alt="Vista Alegre nocturna">
+    <img src="IMG_5722.JPG" alt="Gimnasio Vista Alegre">
+  </div>
+</div>
+</div>
+
+<!-- AVISOS -->
+<div class="section" id="avisos">
+  <h2 class="section-title lang-es">Tabl&oacute;n de Avisos</h2>
+  <h2 class="section-title lang-en">Notice Board</h2>
+  <h2 class="section-title lang-nl">Mededelingenbord</h2>
+  <div class="section-line"></div>
+  <p class="section-subtitle lang-es">Comunicados y novedades de la comunidad</p>
+  <p class="section-subtitle lang-en">Community announcements and updates</p>
+  <p class="section-subtitle lang-nl">Aankondigingen en updates van de gemeenschap</p>
+  <div class="avisos-container">
+
+    <!-- ====================================================================
+         COMO ANADIR UN NUEVO AVISO:
+         1. Copia un bloque <div class="aviso-card ..."> ... </div>
+         2. Pegalo AQUI ARRIBA (los mas recientes van primero)
+         3. Cambia la clase del card y tag segun el tipo:
+              "urgente" = rojo   (cortes de agua, emergencias)
+              "aviso"   = naranja (recordatorios, mantenimiento)
+              "info"    = azul   (informacion general)
+              "ok"      = verde  (buenas noticias, mejoras)
+         4. Actualiza fecha, titulo y texto en los 3 idiomas
+    ==================================================================== -->
+
+    <div class="aviso-card urgente">
+      <span class="aviso-tag urgente lang-es">Urgente</span>
+      <span class="aviso-tag urgente lang-en">Urgent</span>
+      <span class="aviso-tag urgente lang-nl">Dringend</span>
+      <div class="aviso-date">&#128197; 06 Jun 2025</div>
+      <h4 class="lang-es">Corte de agua programado &ndash; Martes 10 de junio</h4>
+      <h4 class="lang-en">Scheduled water cut &ndash; Tuesday 10 June</h4>
+      <h4 class="lang-nl">Gepland water afsluiting &ndash; Dinsdag 10 juni</h4>
+      <p class="lang-es">Se realizar&aacute;n trabajos de mantenimiento en la red de agua. El suministro se interrumpir&aacute; de 10:00 a 14:00h. Rogamos disculpen las molestias.</p>
+      <p class="lang-en">Maintenance work will be carried out on the water supply network. Service will be interrupted from 10:00 AM to 2:00 PM. We apologise for any inconvenience.</p>
+      <p class="lang-nl">Er worden onderhoudswerkzaamheden uitgevoerd aan het waterleidingnetwerk. De watertoevoer wordt onderbroken van 10:00 tot 14:00 uur. Excuses voor het ongemak.</p>
+    </div>
+
+    <div class="aviso-card aviso">
+      <span class="aviso-tag aviso lang-es">Recordatorio</span>
+      <span class="aviso-tag aviso lang-en">Reminder</span>
+      <span class="aviso-tag aviso lang-nl">Herinnering</span>
+      <div class="aviso-date">&#128197; 01 Jun 2025</div>
+      <h4 class="lang-es">Apertura de temporada de piscina</h4>
+      <h4 class="lang-en">Pool season opening</h4>
+      <h4 class="lang-nl">Opening van het zwembadseizoen</h4>
+      <p class="lang-es">Recordamos que la piscina est&aacute; abierta en horario de verano: 09:30 a 20:00h. Por favor, revisen las normas de uso en la secci&oacute;n correspondiente.</p>
+      <p class="lang-en">We remind you that the pool is open during summer hours: 9:30 AM to 8:00 PM. Please review the usage rules in the corresponding section.</p>
+      <p class="lang-nl">Wij herinneren u eraan dat het zwembad geopend is tijdens de zomeruren: 09:30 tot 20:00 uur. Raadpleeg de gebruiksregels in het betreffende gedeelte.</p>
+    </div>
+
+    <div class="aviso-card ok">
+      <span class="aviso-tag ok lang-es">Completado</span>
+      <span class="aviso-tag ok lang-en">Completed</span>
+      <span class="aviso-tag ok lang-nl">Voltooid</span>
+      <div class="aviso-date">&#128197; 20 May 2025</div>
+      <h4 class="lang-es">Nuevo equipamiento en el gimnasio</h4>
+      <h4 class="lang-en">New gym equipment</h4>
+      <h4 class="lang-nl">Nieuwe fitnessapparatuur</h4>
+      <p class="lang-es">Se han instalado nuevas cintas de correr y un set de mancuernas. Recuerden limpiar los aparatos tras su uso.</p>
+      <p class="lang-en">New treadmills and a dumbbell set have been installed. Please remember to clean equipment after use.</p>
+      <p class="lang-nl">Er zijn nieuwe loopbanden en een set dumbbells ge&iuml;nstalleerd. Vergeet niet de apparatuur na gebruik schoon te maken.</p>
+    </div>
+
+    <div class="aviso-card info">
+      <span class="aviso-tag info lang-es">Info</span>
+      <span class="aviso-tag info lang-en">Info</span>
+      <span class="aviso-tag info lang-nl">Info</span>
+      <div class="aviso-date">&#128197; 15 May 2025</div>
+      <h4 class="lang-es">Pr&oacute;xima Junta de Propietarios</h4>
+      <h4 class="lang-en">Upcoming Owners' Meeting</h4>
+      <h4 class="lang-nl">Komende Eigenarenvergadering</h4>
+      <p class="lang-es">La pr&oacute;xima Junta Ordinaria se celebrar&aacute; el s&aacute;bado 28 de junio a las 11:00h. La convocatoria y orden del d&iacute;a se enviar&aacute;n por email.</p>
+      <p class="lang-en">The next Ordinary Owners' Meeting will be held on Saturday 28 June at 11:00 AM. The agenda will be sent by email.</p>
+      <p class="lang-nl">De volgende Gewone Eigenarenvergadering vindt plaats op zaterdag 28 juni om 11:00 uur. De agenda wordt per e-mail verstuurd.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- NORMAS -->
+<div class="section-alt">
+<div class="section" id="normas">
+  <h2 class="section-title lang-es">Normas de R&eacute;gimen Interior</h2>
+  <h2 class="section-title lang-en">Internal Rules &amp; Regulations</h2>
+  <h2 class="section-title lang-nl">Huishoudelijk Reglement</h2>
+  <div class="section-line"></div>
+  <p class="section-subtitle lang-es">Reglamento aprobado por la Comunidad de Propietarios de Vista Alegre Suites</p>
+  <p class="section-subtitle lang-en">Regulations approved by the Vista Alegre Suites Homeowners Association</p>
+  <p class="section-subtitle lang-nl">Reglement goedgekeurd door de Vereniging van Eigenaren Vista Alegre Suites</p>
+
+  <div class="accordion">
+
+    <!-- 1. DISPOSICIONES GENERALES -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128220; Disposiciones Generales (Art. 1&ndash;5)</span><span class="lang-en">&#128220; General Provisions (Art. 1&ndash;5)</span><span class="lang-nl">&#128220; Algemene Bepalingen (Art. 1&ndash;5)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es">
+          <p><strong>Art&iacute;culo 1. &Aacute;mbito</strong> &mdash; El complejo inmobiliario Vista Alegre Suites, ubicado en Calle Cap Negret, Urbanizaci&oacute;n Vista Alegre, Sa Caixota &ndash; Es Cubells (Sant Josep de Sa Talaia, Ibiza), est&aacute; formado por las viviendas, estancias y espacios que integran cada uno de los cuatro bloques edificados, incluyendo trasteros, lavander&iacute;a, gimnasio, despacho coworking, piscina, jardines y zonas comunes.</p>
+          <p><strong>Art&iacute;culo 2. Objeto</strong> &mdash; El funcionamiento y uso de VAS se rige por el C&oacute;digo Civil, la Ley de Propiedad Horizontal, los Estatutos de la Comunidad y el presente Reglamento Interior. Al vender, arrendar o transmitir la propiedad, el propietario notificar&aacute; por escrito al nuevo titular y al Presidente y Administraci&oacute;n de Fincas.</p>
+          <p><strong>Art&iacute;culo 3. Obligatoriedad</strong> &mdash; Las disposiciones son vinculantes para propietarios, arrendatarios, poseedores, ocupantes, dependientes, visitantes (&ldquo;Usuarios&rdquo;) y sus proveedores.</p>
+          <p><strong>Art&iacute;culo 4. Autoridad</strong> &mdash; El Presidente, Vicepresidentes y Administrador velar&aacute;n por el cumplimiento. La interpretaci&oacute;n corresponde a la Comisi&oacute;n Delegada de Vicepresidentes.</p>
+          <p><strong>Art&iacute;culo 5. Solicitudes, Quejas y Denuncias</strong> &mdash; Por escrito al Presidente, con copia a los Vicepresidentes. An&aacute;lisis en 5 d&iacute;as naturales. Resoluci&oacute;n motivada y definitiva en 10 d&iacute;as naturales por voto mayoritario.</p>
+        </div>
+        <div class="lang-en">
+          <p><strong>Article 1. Scope</strong> &mdash; The Vista Alegre Suites complex, located at Calle Cap Negret, Urbanizaci&oacute;n Vista Alegre, Sa Caixota &ndash; Es Cubells (Sant Josep de Sa Talaia, Ibiza), comprises the dwellings, rooms and spaces of four built blocks, including storage rooms, laundry, gym, coworking office, pool, gardens and common areas.</p>
+          <p><strong>Article 2. Purpose</strong> &mdash; VAS is governed by the Civil Code, the Horizontal Property Law, Community Statutes and these Regulations. Upon transfer, the owner shall notify the new holder and the President and Property Management in writing.</p>
+          <p><strong>Article 3. Mandatory Nature</strong> &mdash; Binding for owners, tenants, possessors, occupants, dependents, visitors (&ldquo;Users&rdquo;) and their service providers.</p>
+          <p><strong>Article 4. Authority</strong> &mdash; The President, Vice Presidents and Property Manager ensure compliance. Interpretation corresponds to the Vice Presidents&rsquo; Delegate Committee.</p>
+          <p><strong>Article 5. Requests, Complaints and Reports</strong> &mdash; In writing to the President, copied to Vice Presidents. Analysis within 5 calendar days. Reasoned resolution within 10 calendar days by majority vote.</p>
+        </div>
+        <div class="lang-nl">
+          <p><strong>Artikel 1. Toepassingsgebied</strong> &mdash; Het complex Vista Alegre Suites, gelegen aan Calle Cap Negret, Urbanizaci&oacute;n Vista Alegre, Sa Caixota &ndash; Es Cubells (Sant Josep de Sa Talaia, Ibiza), bestaat uit de woningen, ruimtes en gebieden van vier gebouwde blokken, inclusief bergingen, wasruimte, fitnessruimte, coworking kantoor, zwembad, tuinen en gemeenschappelijke ruimtes.</p>
+          <p><strong>Artikel 2. Doel</strong> &mdash; VAS wordt beheerst door het Burgerlijk Wetboek, de Wet op de Horizontale Eigendom, de Statuten en dit Reglement. Bij overdracht meldt de eigenaar dit schriftelijk aan de nieuwe houder en de Voorzitter en het Vastgoedbeheer.</p>
+          <p><strong>Artikel 3. Verplicht karakter</strong> &mdash; Bindend voor eigenaren, huurders, bezitters, bewoners, huisgenoten, bezoekers (&ldquo;Gebruikers&rdquo;) en hun dienstverleners.</p>
+          <p><strong>Artikel 4. Autoriteit</strong> &mdash; De Voorzitter, Vicevoorzitters en Beheerder zien toe op naleving. Interpretatie behoort tot de Gedelegeerde Commissie van Vicevoorzitters.</p>
+          <p><strong>Artikel 5. Verzoeken, Klachten en Meldingen</strong> &mdash; Schriftelijk bij de Voorzitter, kopie aan Vicevoorzitters. Analyse binnen 5 kalenderdagen. Gemotiveerd besluit binnen 10 kalenderdagen bij meerderheidsstemming.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. OBRAS -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128296; Obras y Modificaciones (Art. 6&ndash;11)</span><span class="lang-en">&#128296; Works &amp; Modifications (Art. 6&ndash;11)</span><span class="lang-nl">&#128296; Verbouwingen &amp; Wijzigingen (Art. 6&ndash;11)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es">
+          <p><strong>Art. 6.</strong> Prohibido realizar obras en Zonas Comunes o que afecten a la homogeneidad arquitect&oacute;nica, estructura, estanqueidad o seguridad, sin autorizaci&oacute;n escrita de la Junta.</p>
+          <p><strong>Art. 7.</strong> Comunicar la obra por escrito con 15 d&iacute;as de antelaci&oacute;n al Presidente y Comisi&oacute;n Delegada, describiendo proveedor, alcance, materiales e impacto. Responsabilidad de proteger bienes comunitarios y minimizar molestias.</p>
+          <p><strong>Art. 8.</strong> Instalaci&oacute;n o modificaci&oacute;n de equipamiento (A/C, toldos, p&eacute;rgolas, persianas, antenas, etc.) requiere aprobaci&oacute;n escrita de la Junta.</p>
+          <p><strong>Art. 9.</strong> Obra no autorizada o diferente a lo aprobado: reversi&oacute;n a costa del responsable.</p>
+          <p><strong>Art. 10.</strong> Propietarios responden por sus arrendatarios, dependientes y visitantes.</p>
+          <p><strong>Art. 11.</strong> Toda obra sujeta a reglas de la Urbanizaci&oacute;n y normativa aplicable.</p>
+        </div>
+        <div class="lang-en">
+          <p><strong>Art. 6.</strong> Works in Common Areas or affecting architectural uniformity, structure, watertightness or safety prohibited without written authorisation from the General Meeting.</p>
+          <p><strong>Art. 7.</strong> Notify in writing 15 days in advance to President and Delegate Committee, describing contractor, scope, materials and impact. Responsibility to protect community assets and minimise disturbance.</p>
+          <p><strong>Art. 8.</strong> Installation or modification of equipment (A/C, awnings, pergolas, shutters, antennas, etc.) requires written approval from the General Meeting.</p>
+          <p><strong>Art. 9.</strong> Unauthorised or differing work: reversal at the responsible party&rsquo;s expense.</p>
+          <p><strong>Art. 10.</strong> Owners liable for their tenants, dependents and visitors.</p>
+          <p><strong>Art. 11.</strong> All works subject to Development rules and applicable regulations.</p>
+        </div>
+        <div class="lang-nl">
+          <p><strong>Art. 6.</strong> Werkzaamheden in Gemeenschappelijke Ruimtes of die de architectonische uniformiteit, structuur, waterdichtheid of veiligheid aantasten, verboden zonder schriftelijke toestemming van de Algemene Vergadering.</p>
+          <p><strong>Art. 7.</strong> 15 dagen van tevoren schriftelijk melden aan Voorzitter en Gedelegeerde Commissie, met beschrijving van aannemer, omvang, materialen en impact. Verantwoordelijkheid voor bescherming gemeenschappelijke eigendommen en minimaliseren overlast.</p>
+          <p><strong>Art. 8.</strong> Installatie of wijziging van apparatuur (airco, zonwering, pergola&rsquo;s, luiken, antennes, etc.) vereist schriftelijke goedkeuring van de Algemene Vergadering.</p>
+          <p><strong>Art. 9.</strong> Niet-geautoriseerde werkzaamheden: terugdraaien op kosten van de verantwoordelijke.</p>
+          <p><strong>Art. 10.</strong> Eigenaren aansprakelijk voor hun huurders, huisgenoten en bezoekers.</p>
+          <p><strong>Art. 11.</strong> Alle werkzaamheden onderworpen aan regels van de Urbanisatie en toepasselijke regelgeving.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. OPERARIOS -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128119; Operarios y Proveedores (Art. 12&ndash;14)</span><span class="lang-en">&#128119; Workers &amp; Suppliers (Art. 12&ndash;14)</span><span class="lang-nl">&#128119; Werknemers &amp; Leveranciers (Art. 12&ndash;14)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es">
+          <p><strong>Art. 12.</strong> Acceso puntual y temporal, dentro del horario establecido, solo para el cometido espec&iacute;fico asignado.</p>
+          <p><strong>Art. 13.</strong> Cumplimiento de normas e instrucciones de la Junta, Presidente, Vicepresidentes y Administrador en todo momento.</p>
+          <p><strong>Art. 14.</strong> Los Usuarios evitar&aacute;n quejas directas con operarios ajenos. Las observaciones se canalizan conforme al Art&iacute;culo 5. Solo los cargos de la Comunidad pueden dar instrucciones a operarios contratados por la Comunidad.</p>
+        </div>
+        <div class="lang-en">
+          <p><strong>Art. 12.</strong> Punctual and temporary access, within established hours, only for the specific assigned task.</p>
+          <p><strong>Art. 13.</strong> Compliance with rules and instructions from the Board, President, Vice Presidents and Property Manager at all times.</p>
+          <p><strong>Art. 14.</strong> Users shall avoid direct complaints with external workers. Observations channelled per Article 5. Only Community officers may instruct Community-contracted workers.</p>
+        </div>
+        <div class="lang-nl">
+          <p><strong>Art. 12.</strong> Punctueel en tijdelijk toegang, binnen vastgestelde uren, alleen voor de specifiek toegewezen taak.</p>
+          <p><strong>Art. 13.</strong> Naleving van regels en instructies van het Bestuur, Voorzitter, Vicevoorzitters en Beheerder te allen tijde.</p>
+          <p><strong>Art. 14.</strong> Gebruikers vermijden directe klachten bij extern personeel. Opmerkingen via Artikel 5. Alleen functionarissen mogen instructies geven aan personeel ingehuurd door de Gemeenschap.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. CONVIVENCIA -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#129309; Normas Generales de Convivencia (Art. 15)</span><span class="lang-en">&#129309; General Coexistence Rules (Art. 15)</span><span class="lang-nl">&#129309; Algemene Samenlevingsregels (Art. 15)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es">
+          <p>1. Uso exclusivamente residencial.</p>
+          <p>2. Respetar bienestar, descanso, higiene, seguridad y salud. Queda prohibido:</p>
+          <ul>
+            <li>Infringir Estatutos o Reglamento.</li>
+            <li>Causar riesgo, da&ntilde;o o perjuicio a bienes o personas.</li>
+            <li>Molestar o impactar la calidad de vida de otros Usuarios.</li>
+            <li>Tenencia o consumo de estupefacientes.</li>
+            <li>Colocar prendas u objetos visibles desde el exterior.</li>
+            <li>Dejar calzado en pasillos, rellanos y escalones.</li>
+            <li>Usar Zonas Comunes para fines diferentes.</li>
+            <li>Instalar anuncios o publicidad.</li>
+            <li>Trasladar muebles de Zonas Comunes.</li>
+            <li>Circular sin ropa o calzado por Zonas Comunes.</li>
+            <li>Fotografiar/filmar para uso online, promocional o comercial (influencers, marcas, filmaciones profesionales).</li>
+            <li>Confrontaci&oacute;n, abuso verbal o f&iacute;sico, conducta intimidatoria o discriminatoria.</li>
+          </ul>
+          <p>3. Puertas de entrada cerradas permanentemente.</p>
+          <p>4. <strong>Horario de descanso: 23:00 a 09:00h.</strong></p>
+          <p>5. Rotura por uso indebido: Usuario causante abona costes.</p>
+          <p>6. Prohibido dejar objetos, basura o enseres en Zonas Comunes.</p>
+          <p>7. Basuras en contenedores a la entrada de la Urbanizaci&oacute;n.</p>
+          <p>8. Mantener porche, jard&iacute;n, terraza y vegetaci&oacute;n en buen estado.</p>
+        </div>
+        <div class="lang-en">
+          <p>1. Exclusively residential use.</p>
+          <p>2. Respect wellbeing, rest, hygiene, safety and health. Prohibited:</p>
+          <ul>
+            <li>Breaching Statutes or Regulations.</li>
+            <li>Causing risk, damage or harm to property or persons.</li>
+            <li>Disturbing or impacting other Users&rsquo; quality of life.</li>
+            <li>Possession or consumption of narcotics.</li>
+            <li>Placing garments or objects visible from outside.</li>
+            <li>Leaving footwear in corridors, landings and stairways.</li>
+            <li>Using Common Areas for unintended purposes.</li>
+            <li>Installing advertisements or publicity.</li>
+            <li>Moving furniture from Common Areas.</li>
+            <li>Moving through Common Areas without clothing or footwear.</li>
+            <li>Photographing/filming for online, promotional or commercial use (influencers, brands, professional filming).</li>
+            <li>Confrontation, verbal or physical abuse, intimidating or discriminatory conduct.</li>
+          </ul>
+          <p>3. Entrance doors permanently closed.</p>
+          <p>4. <strong>Quiet hours: 11:00 PM to 9:00 AM.</strong></p>
+          <p>5. Breakage from improper use: responsible User pays costs.</p>
+          <p>6. Prohibited to leave objects, rubbish or belongings in Common Areas.</p>
+          <p>7. Rubbish in containers at the Development entrance.</p>
+          <p>8. Maintain porch, garden, terrace and vegetation in good condition.</p>
+        </div>
+        <div class="lang-nl">
+          <p>1. Uitsluitend residentieel gebruik.</p>
+          <p>2. Respecteer welzijn, rust, hygi&euml;ne, veiligheid en gezondheid. Verboden:</p>
+          <ul>
+            <li>Overtreding van Statuten of Reglement.</li>
+            <li>Risico, schade of nadeel voor eigendommen of personen.</li>
+            <li>Overlast of impact op levenskwaliteit van andere Gebruikers.</li>
+            <li>Bezit of gebruik van verdovende middelen.</li>
+            <li>Kleding of voorwerpen zichtbaar van buitenaf ophangen.</li>
+            <li>Schoeisel achterlaten in gangen, overloop en trappen.</li>
+            <li>Gemeenschappelijke Ruimtes voor andere doeleinden gebruiken.</li>
+            <li>Reclame of publiciteit plaatsen.</li>
+            <li>Meubilair uit Gemeenschappelijke Ruimtes verplaatsen.</li>
+            <li>Zonder kleding of schoeisel door Gemeenschappelijke Ruimtes.</li>
+            <li>Fotograferen/filmen voor online, promotioneel of commercieel gebruik (influencers, merken, professionele opnames).</li>
+            <li>Confrontatie, verbaal of fysiek misbruik, intimiderend of discriminerend gedrag.</li>
+          </ul>
+          <p>3. Toegangsdeuren permanent gesloten.</p>
+          <p>4. <strong>Rusttijden: 23:00 tot 09:00 uur.</strong></p>
+          <p>5. Breuk door oneigenlijk gebruik: verantwoordelijke Gebruiker betaalt kosten.</p>
+          <p>6. Verboden voorwerpen, afval of bezittingen achter te laten in Gemeenschappelijke Ruimtes.</p>
+          <p>7. Afval in containers bij de ingang van de Urbanisatie.</p>
+          <p>8. Veranda, tuin, terras en beplanting in goede staat houden.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. GIMNASIO -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#127947;&#65039; Gimnasio (Art. 16.2)</span><span class="lang-en">&#127947;&#65039; Gym (Art. 16.2)</span><span class="lang-nl">&#127947;&#65039; Fitnessruimte (Art. 16.2)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><p><strong>Horario: 08:00 &ndash; 21:00h</strong></p><ul><li>Ropa y calzado deportivo obligatorio.</li><li>Prohibido acceder mojado o con ropa de ba&ntilde;o tras la piscina.</li><li>Limpiar y desinfectar aparatos tras su uso.</li><li>No comer ni fumar. Solo agua/refrescos en pl&aacute;stico.</li><li>No mover aparatos. Devolver mancuernas a su sitio.</li><li>No hablar en voz alta ni poner m&uacute;sica.</li><li>Cerrar ventanas y puerta al terminar.</li><li>Prohibido el uso por invitados, operarios o proveedores.</li></ul></div>
+        <div class="lang-en"><p><strong>Hours: 8:00 AM &ndash; 9:00 PM</strong></p><ul><li>Appropriate sportswear and footwear mandatory.</li><li>Access while wet or in wet swimwear prohibited.</li><li>Clean and disinfect equipment after use.</li><li>No eating or smoking. Only water/drinks in plastic.</li><li>Do not move equipment. Return dumbbells to rack.</li><li>No loud talking or music.</li><li>Close windows and door upon leaving.</li><li>Use by guests, workers or suppliers prohibited.</li></ul></div>
+        <div class="lang-nl"><p><strong>Openingstijden: 08:00 &ndash; 21:00 uur</strong></p><ul><li>Gepaste sportkleding en -schoenen verplicht.</li><li>Toegang terwijl nat of in natte zwemkleding verboden.</li><li>Apparatuur na gebruik reinigen en ontsmetten.</li><li>Niet eten of roken. Alleen water/dranken in plastic.</li><li>Apparatuur niet verplaatsen. Dumbbells terugplaatsen.</li><li>Niet luid praten of muziek afspelen.</li><li>Bij vertrek ramen en deur sluiten.</li><li>Gebruik door gasten, arbeiders of leveranciers verboden.</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 6. CHILLOUT -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128715;&#65039; Terraza Chillout (Art. 16.3)</span><span class="lang-en">&#128715;&#65039; Chillout Terrace (Art. 16.3)</span><span class="lang-nl">&#128715;&#65039; Chillout Terras (Art. 16.3)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><p><strong>Horario: 09:00 &ndash; 23:00h</strong></p><ul><li>Reservado a propietarios y m&aacute;ximo 2 invitados.</li><li>No acceder sin calzado o ropa, ni tras ejercicio o piscina.</li><li>Prohibido fumar y consumir estupefacientes.</li><li>Prohibido dormir, pernoctar o usar como dormitorio.</li><li>No hablar en voz alta ni poner m&uacute;sica.</li><li>Mantener mobiliario en su sitio.</li><li>Reuniones/celebraciones requieren autorizaci&oacute;n escrita del Presidente.</li></ul></div>
+        <div class="lang-en"><p><strong>Hours: 9:00 AM &ndash; 11:00 PM</strong></p><ul><li>Reserved for owners and max. 2 guests.</li><li>No access without footwear/clothing, or after exercise/pool.</li><li>Smoking and narcotics prohibited.</li><li>Sleeping or overnight stays prohibited.</li><li>No loud talking or music.</li><li>Keep furniture in place.</li><li>Gatherings/celebrations require written authorisation from the President.</li></ul></div>
+        <div class="lang-nl"><p><strong>Openingstijden: 09:00 &ndash; 23:00 uur</strong></p><ul><li>Gereserveerd voor eigenaren en max. 2 gasten.</li><li>Geen toegang zonder schoeisel/kleding, of na sport/zwembad.</li><li>Roken en verdovende middelen verboden.</li><li>Slapen of overnachten verboden.</li><li>Niet luid praten of muziek afspelen.</li><li>Meubilair op zijn plaats houden.</li><li>Bijeenkomsten/feesten vereisen schriftelijke toestemming van de Voorzitter.</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 7. PISCINA -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#127946; Piscina (Art. 16.4)</span><span class="lang-en">&#127946; Pool (Art. 16.4)</span><span class="lang-nl">&#127946; Zwembad (Art. 16.4)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><p><strong>Horario: 09:30 &ndash; 20:00h</strong></p><ul><li>Cada Usuario es responsable de sus pertenencias y lesiones. <em>No hay socorrista.</em></li><li>Ropa de ba&ntilde;o adecuada obligatoria. Ducharse antes del ba&ntilde;o.</li><li>No ba&ntilde;arse con calzado, desnudo o prendas inadecuadas.</li><li>Prohibido acceder tras ejercicio o para reportajes/filmaciones.</li><li>No fumar, consumir estupefacientes ni comer.</li><li>Solo bebidas en pl&aacute;stico. Prohibido cristal u objetos cortantes.</li><li>No gritar ni poner m&uacute;sica.</li><li>Prohibido limpiar toallas u objetos en la piscina.</li><li>Acceder solo por las escaleras. Prohibido lanzarse de cabeza o bomba.</li><li>Mantener mobiliario en su sitio y recinto ordenado.</li><li>Menores bajo supervisi&oacute;n de un adulto. Prohibida la entrada de animales.</li><li>No caminar mojado o descalzo por otras Zonas Comunes.</li><li>M&aacute;ximo 2 invitados por vivienda. Prohibido uso por operarios/proveedores.</li></ul></div>
+        <div class="lang-en"><p><strong>Hours: 9:30 AM &ndash; 8:00 PM</strong></p><ul><li>Each User responsible for belongings and injuries. <em>No lifeguard.</em></li><li>Appropriate swimwear mandatory. Shower before swimming.</li><li>No swimming with footwear, nude or in inappropriate clothing.</li><li>Access after exercising or for photo/film shoots prohibited.</li><li>No smoking, narcotics or eating.</li><li>Only drinks in plastic. Glass or sharp objects prohibited.</li><li>No shouting or music.</li><li>No cleaning towels or items in the pool.</li><li>Access only via stairs. Diving or jumping prohibited.</li><li>Keep furniture in place and area tidy.</li><li>Minors supervised by an adult. Animals not permitted.</li><li>Do not walk wet or barefoot through other Common Areas.</li><li>Max. 2 guests per dwelling. Use by workers/suppliers prohibited.</li></ul></div>
+        <div class="lang-nl"><p><strong>Openingstijden: 09:30 &ndash; 20:00 uur</strong></p><ul><li>Elke Gebruiker verantwoordelijk voor bezittingen en verwondingen. <em>Geen badmeester.</em></li><li>Gepaste zwemkleding verplicht. Douchen voor het zwemmen.</li><li>Niet zwemmen met schoeisel, naakt of in ongepaste kleding.</li><li>Toegang na sport of voor opnames verboden.</li><li>Niet roken, verdovende middelen of eten.</li><li>Alleen dranken in plastic. Glas of scherpe voorwerpen verboden.</li><li>Niet schreeuwen of muziek afspelen.</li><li>Geen handdoeken of voorwerpen in het zwembad reinigen.</li><li>Alleen via de trap. Duiken of springen verboden.</li><li>Meubilair op zijn plaats en gebied opgeruimd.</li><li>Minderjarigen onder toezicht van volwassene. Dieren niet toegestaan.</li><li>Niet nat of blootsvoets door andere Gemeenschappelijke Ruimtes.</li><li>Max. 2 gasten per woning. Gebruik door arbeiders/leveranciers verboden.</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 8. TRASTEROS Y LAVADORAS -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#129514; Trasteros y Lavadoras (Art. 16.5)</span><span class="lang-en">&#129514; Storage &amp; Laundry (Art. 16.5)</span><span class="lang-nl">&#129514; Berging &amp; Wasruimte (Art. 16.5)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><ul><li>Trasteros: solo bienes no peligrosos, t&oacute;xicos o inflamables.</li><li>Prohibido alterar la instalaci&oacute;n el&eacute;ctrica.</li><li><strong>Lavadoras:</strong> m&aacute;x. 2 al d&iacute;a por vivienda, 1,5h por turno, entre 08:30 y 21:00h.</li><li>Prohibido el uso por operarios o proveedores.</li><li>Tras uso: retirar productos, limpiar restos de jab&oacute;n, dejar puerta abierta para ventilaci&oacute;n.</li></ul></div>
+        <div class="lang-en"><ul><li>Storage rooms: only non-dangerous, non-toxic, non-flammable items.</li><li>Altering electrical installations prohibited.</li><li><strong>Washing machines:</strong> max. 2 per day per dwelling, 1.5h per turn, between 8:30 AM and 9:00 PM.</li><li>Use by workers or suppliers prohibited.</li><li>After use: remove products, clean soap residue, leave door open for ventilation.</li></ul></div>
+        <div class="lang-nl"><ul><li>Bergingen: alleen niet-gevaarlijke, niet-giftige, niet-brandbare voorwerpen.</li><li>Wijzigen van elektrische installaties verboden.</li><li><strong>Wasmachines:</strong> max. 2 per dag per woning, 1,5 uur per beurt, tussen 08:30 en 21:00 uur.</li><li>Gebruik door arbeiders of leveranciers verboden.</li><li>Na gebruik: producten verwijderen, zeepresten reinigen, deur open laten voor ventilatie.</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 9. COWORKING -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128187; Despacho Coworking (Art. 16.6)</span><span class="lang-en">&#128187; Coworking Office (Art. 16.6)</span><span class="lang-nl">&#128187; Coworking Kantoor (Art. 16.6)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><p><strong>Horario: 08:30 &ndash; 21:00h &middot; M&aacute;x. 5 horas/d&iacute;a por vivienda</strong></p><ul><li>Un adulto por vivienda, una mesa y silla.</li><li>Prohibido el uso por menores, operarios o proveedores.</li><li>Calzado y ropa obligatoria. Prohibido acceder tras piscina o ejercicio.</li><li>No fumar, comer ni estupefacientes. Solo agua/refrescos en pl&aacute;stico.</li><li>Limpiar mesa y silla con toalla desinfectante tras su uso.</li><li>No m&uacute;sica ni hablar en voz alta.</li><li>Cerrar ventanas y puertas al terminar.</li></ul></div>
+        <div class="lang-en"><p><strong>Hours: 8:30 AM &ndash; 9:00 PM &middot; Max. 5 hours/day per dwelling</strong></p><ul><li>One adult per dwelling, one desk and chair.</li><li>Use by minors, workers or suppliers prohibited.</li><li>Footwear and clothing mandatory. No access after pool or exercise.</li><li>No smoking, eating or narcotics. Only water/drinks in plastic.</li><li>Clean desk and chair with disinfectant wipe after use.</li><li>No music or loud talking.</li><li>Close windows and doors upon leaving.</li></ul></div>
+        <div class="lang-nl"><p><strong>Openingstijden: 08:30 &ndash; 21:00 uur &middot; Max. 5 uur/dag per woning</strong></p><ul><li>E&eacute;n volwassene per woning, &eacute;&eacute;n bureau en stoel.</li><li>Gebruik door minderjarigen, arbeiders of leveranciers verboden.</li><li>Schoeisel en kleding verplicht. Geen toegang na zwembad of sport.</li><li>Niet roken, eten of verdovende middelen. Alleen water/dranken in plastic.</li><li>Bureau en stoel na gebruik reinigen met desinfecterend doekje.</li><li>Geen muziek of luid praten.</li><li>Bij vertrek ramen en deuren sluiten.</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 10. ANIMALES -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128062; Animales (Art. 16.7)</span><span class="lang-en">&#128062; Pets (Art. 16.7)</span><span class="lang-nl">&#128062; Huisdieren (Art. 16.7)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><ul><li>M&aacute;ximo 1 perro o 2 gatos por vivienda, inscritos, desparasitados y vacunados.</li><li>No causar ruido, peligro ni molestias.</li><li>No circular sola/suelta. Bozal obligatorio si raza peligrosa o antecedentes.</li><li>No hacer necesidades en Zonas Comunes ni privativas.</li><li>Due&ntilde;o responsable de higiene, limpieza inmediata, da&ntilde;os y ruido nocturno (23:00&ndash;09:00).</li></ul></div>
+        <div class="lang-en"><ul><li>Max. 1 dog or 2 cats per dwelling, registered, dewormed and vaccinated.</li><li>Must not cause noise, danger or disturbance.</li><li>Must not roam alone/off-leash. Muzzle required for dangerous breeds or history.</li><li>Must not relieve itself in Common or private Areas.</li><li>Owner responsible for hygiene, immediate cleaning, damage and nighttime noise (11 PM&ndash;9 AM).</li></ul></div>
+        <div class="lang-nl"><ul><li>Max. 1 hond of 2 katten per woning, geregistreerd, ontwormd en gevaccineerd.</li><li>Mag geen lawaai, gevaar of overlast veroorzaken.</li><li>Mag niet alleen/los rondlopen. Muilkorf verplicht bij gevaarlijke rassen of antecedenten.</li><li>Mag behoeften niet doen in Gemeenschappelijke of priv&eacute;ruimtes.</li><li>Eigenaar verantwoordelijk voor hygi&euml;ne, onmiddellijke reiniging, schade en nachtelijk geluid (23:00&ndash;09:00).</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 11. ESTACIONAMIENTO -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#128663; Estacionamiento (Art. 16.8)</span><span class="lang-en">&#128663; Parking (Art. 16.8)</span><span class="lang-nl">&#128663; Parkeren (Art. 16.8)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><ul><li>Prohibido estacionar frente a las verjas de entrada, aceras del complejo, o impidiendo acceso a plazas de otros Usuarios.</li><li>Proveedores: estacionamiento temporal frente a verja principal 08:30&ndash;17:00 (carga/descarga). Fuera de horario, estacionar en otra zona de Cap Negret.</li></ul></div>
+        <div class="lang-en"><ul><li>Parking in front of entrance gates, surrounding pavements, or blocking other Users&rsquo; spaces prohibited.</li><li>Suppliers: temporary parking at main gate 8:30 AM&ndash;5:00 PM (loading/unloading). Outside hours, park elsewhere in Cap Negret.</li></ul></div>
+        <div class="lang-nl"><ul><li>Parkeren voor ingangspoorten, omringende stoepen, of het blokkeren van parkeerplaatsen van andere Gebruikers verboden.</li><li>Leveranciers: tijdelijk parkeren bij hoofdpoort 08:30&ndash;17:00 (laden/lossen). Buiten deze uren elders in Cap Negret parkeren.</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 12. VIVIENDAS ARRENDADAS -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#127968; Viviendas Arrendadas (Art. 16.9)</span><span class="lang-en">&#127968; Rented Properties (Art. 16.9)</span><span class="lang-nl">&#127968; Verhuurde Woningen (Art. 16.9)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><ul><li>El propietario es responsable solidario de da&ntilde;os causados por sus inquilinos.</li><li>Debe comunicar este Reglamento a sus inquilinos.</li><li>Explotaci&oacute;n tur&iacute;stica o ilegal puede denunciarse an&oacute;nimamente a: <strong>inspeccio.turisme@conselldeivissa.es</strong></li></ul></div>
+        <div class="lang-en"><ul><li>The owner is jointly liable for damage caused by their tenants.</li><li>Must communicate these Regulations to their tenants.</li><li>Tourist or illegal exploitation may be reported anonymously to: <strong>inspeccio.turisme@conselldeivissa.es</strong></li></ul></div>
+        <div class="lang-nl"><ul><li>De eigenaar is hoofdelijk aansprakelijk voor schade veroorzaakt door huurders.</li><li>Dit Reglement moet aan huurders worden medegedeeld.</li><li>Toeristische of illegale exploitatie kan anoniem worden gemeld bij: <strong>inspeccio.turisme@conselldeivissa.es</strong></li></ul></div>
+      </div>
+    </div>
+
+    <!-- 13. SANCIONES -->
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        <span><span class="lang-es">&#9878;&#65039; Sanciones (Art. 16.10)</span><span class="lang-en">&#9878;&#65039; Sanctions (Art. 16.10)</span><span class="lang-nl">&#9878;&#65039; Sancties (Art. 16.10)</span></span>
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="lang-es"><ul><li>Ante infracci&oacute;n acreditada: privaci&oacute;n temporal del uso de la(s) Zona(s) Com&uacute;n(es) afectada(s).</li><li>Proceso: advertencia escrita &rarr; advertencia final &rarr; sanci&oacute;n.</li><li>Si la conducta incrementa primas de seguros, el Usuario infractor asume el coste adicional.</li></ul></div>
+        <div class="lang-en"><ul><li>Upon verified breach: temporary deprivation of use of affected Common Area(s).</li><li>Process: written warning &rarr; final warning &rarr; sanction.</li><li>If conduct increases insurance premiums, offending User bears additional cost.</li></ul></div>
+        <div class="lang-nl"><ul><li>Bij vastgestelde overtreding: tijdelijke ontzegging van gebruik van betreffende Gemeenschappelijke Ruimte(s).</li><li>Proces: schriftelijke waarschuwing &rarr; laatste waarschuwing &rarr; sanctie.</li><li>Als gedrag de verzekeringspremies verhoogt, draagt de overtredende Gebruiker de extra kosten.</li></ul></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- SERVICIOS -->
+<div class="section" id="servicios">
+  <h2 class="section-title lang-es">Servicios e Instalaciones</h2>
+  <h2 class="section-title lang-en">Services &amp; Facilities</h2>
+  <h2 class="section-title lang-nl">Diensten &amp; Faciliteiten</h2>
+  <div class="section-line"></div>
+  <p class="section-subtitle lang-es">Espacios comunes para propietarios</p>
+  <p class="section-subtitle lang-en">Common spaces for owners</p>
+  <p class="section-subtitle lang-nl">Gemeenschappelijke ruimtes voor eigenaren</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <img src="IMG_4791 2.JPG" alt="Piscina" class="service-img">
+      <div class="service-body">
+        <div class="service-icon">&#127946;</div>
+        <h3 class="lang-es">Piscina</h3><h3 class="lang-en">Pool</h3><h3 class="lang-nl">Zwembad</h3>
+        <p class="lang-es">Piscina comunitaria con zona de sol&aacute;rium y tumbonas. Ducha obligatoria antes del ba&ntilde;o.</p>
+        <p class="lang-en">Community pool with solarium area and sun loungers. Shower required before swimming.</p>
+        <p class="lang-nl">Gemeenschappelijk zwembad met zonneweide en ligstoelen. Douchen verplicht voor het zwemmen.</p>
+        <span class="service-hours">&#9200; 09:30 &ndash; 20:00</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <img src="IMG_2871.JPG" alt="Chill Out" class="service-img">
+      <div class="service-body">
+        <div class="service-icon">&#128715;&#65039;</div>
+        <h3>Chill Out</h3>
+        <p class="lang-es">Terraza de relax reservada para propietarios. Ideal para disfrutar del atardecer ibicenco.</p>
+        <p class="lang-en">Relaxation terrace reserved for owners. Ideal for enjoying the Ibiza sunset.</p>
+        <p class="lang-nl">Ontspanningsterras gereserveerd voor eigenaren. Ideaal om te genieten van de Ibiza-zonsondergang.</p>
+        <span class="service-hours">&#9200; 09:00 &ndash; 23:00</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <img src="IMG_5722.JPG" alt="Gimnasio" class="service-img">
+      <div class="service-body">
+        <div class="service-icon">&#127947;&#65039;</div>
+        <h3 class="lang-es">Gimnasio</h3><h3 class="lang-en">Gym</h3><h3 class="lang-nl">Fitnessruimte</h3>
+        <p class="lang-es">Gimnasio equipado con cintas de correr, pesas, bicicletas est&aacute;ticas y m&aacute;s.</p>
+        <p class="lang-en">Fully equipped gym with treadmills, weights, stationary bikes and more.</p>
+        <p class="lang-nl">Volledig uitgeruste fitnessruimte met loopbanden, gewichten, hometrainers en meer.</p>
+        <span class="service-hours">&#9200; 08:00 &ndash; 21:00</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-body" style="padding-top: 2.5rem;">
+        <div class="service-icon">&#128187;</div>
+        <h3>Co-Working</h3>
+        <p class="lang-es">Espacio de trabajo compartido. M&aacute;ximo 5 horas al d&iacute;a por vivienda.</p>
+        <p class="lang-en">Shared workspace. Maximum 5 hours per day per dwelling.</p>
+        <p class="lang-nl">Gedeelde werkruimte. Maximaal 5 uur per dag per woning.</p>
+        <span class="service-hours">&#9200; 08:30 &ndash; 21:00</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-body" style="padding-top: 2.5rem;">
+        <div class="service-icon">&#129514;</div>
+        <h3 class="lang-es">Cuarto de Lavadoras</h3><h3 class="lang-en">Laundry Room</h3><h3 class="lang-nl">Wasruimte</h3>
+        <p class="lang-es">Lavadoras comunitarias. M&aacute;x. 2 lavados al d&iacute;a por vivienda (1,5h por turno).</p>
+        <p class="lang-en">Community washing machines. Max. 2 washes per day per dwelling (1.5h per turn).</p>
+        <p class="lang-nl">Gemeenschappelijke wasmachines. Max. 2 wasbeurten per dag per woning (1,5 uur per beurt).</p>
+        <span class="service-hours">&#9200; 08:30 &ndash; 21:00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULARIO -->
+<div class="section-alt">
+<div class="section" id="formulario">
+  <h2 class="section-title lang-es">Reportar &middot; Sugerir &middot; Consultar</h2>
+  <h2 class="section-title lang-en">Report &middot; Suggest &middot; Enquire</h2>
+  <h2 class="section-title lang-nl">Melden &middot; Suggereren &middot; Vragen</h2>
+  <div class="section-line"></div>
+  <div class="form-wrapper">
+    <p class="lang-es">Utiliza el siguiente formulario para reportar incidencias, hacer sugerencias o realizar consultas a la comunidad.</p>
+    <p class="lang-en">Use the following form to report incidents, make suggestions or submit enquiries to the community.</p>
+    <p class="lang-nl">Gebruik het volgende formulier om incidenten te melden, suggesties te doen of vragen te stellen aan de gemeenschap.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSetNE2--6V8T4_pPWtSBF5UGoB8z_2L5yzKnV4j0WWNAs2CAQ/viewform?usp=sharing" target="_blank" class="btn-primary">
+      <span class="lang-es">&#128221; Abrir Formulario</span>
+      <span class="lang-en">&#128221; Open Form</span>
+      <span class="lang-nl">&#128221; Formulier Openen</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- DOCUMENTOS -->
+<div class="section" id="documentos">
+  <h2 class="section-title lang-es">Documentos</h2>
+  <h2 class="section-title lang-en">Documents</h2>
+  <h2 class="section-title lang-nl">Documenten</h2>
+  <div class="section-line"></div>
+  <div class="docs-card">
+    <div class="docs-icon">&#128193;</div>
+    <h3 class="lang-es">Actas y Documentaci&oacute;n</h3>
+    <h3 class="lang-en">Minutes &amp; Documentation</h3>
+    <h3 class="lang-nl">Notulen &amp; Documentatie</h3>
+    <p class="lang-es">Accede a las actas de juntas de propietarios y otros documentos de la comunidad. El acceso est&aacute; restringido a propietarios autorizados.</p>
+    <p class="lang-en">Access the minutes of owners' meetings and other community documents. Access is restricted to authorised owners.</p>
+    <p class="lang-nl">Toegang tot de notulen van eigenarenvergaderingen en andere gemeenschapsdocumenten. Toegang is beperkt tot geautoriseerde eigenaren.</p>
+    <a href="https://drive.google.com/drive/folders/1RIzgFbWSDslwNgeN-4t5KveE1KYSgbu-?usp=drive_link" target="_blank" class="btn-primary">
+      <span class="lang-es">&#128194; Abrir Google Drive</span>
+      <span class="lang-en">&#128194; Open Google Drive</span>
+      <span class="lang-nl">&#128194; Google Drive Openen</span>
+    </a>
+  </div>
+</div>
+
+<!-- CONTACTOS -->
+<div class="section-alt">
+<div class="section" id="contactos">
+  <h2 class="section-title lang-es">Contactos</h2>
+  <h2 class="section-title lang-en">Contacts</h2>
+  <h2 class="section-title lang-nl">Contacten</h2>
+  <div class="section-line"></div>
+  <p class="section-subtitle lang-es">Equipo de gesti&oacute;n de la comunidad</p>
+  <p class="section-subtitle lang-en">Community management team</p>
+  <p class="section-subtitle lang-nl">Beheerteam van de gemeenschap</p>
+  <div class="contacts-grid">
+    <div class="contact-card">
+      <div class="contact-avatar">RM</div>
+      <h4>Robert Mulet</h4>
+      <div class="contact-role lang-es">Presidente</div>
+      <div class="contact-role lang-en">President</div>
+      <div class="contact-role lang-nl">Voorzitter</div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSetNE2--6V8T4_pPWtSBF5UGoB8z_2L5yzKnV4j0WWNAs2CAQ/viewform?usp=sharing" target="_blank" class="btn-contact">
+        <span class="lang-es">&#128172; Contactar v&iacute;a formulario</span>
+        <span class="lang-en">&#128172; Contact via form</span>
+        <span class="lang-nl">&#128172; Contact via formulier</span>
+      </a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-avatar">MP</div>
+      <h4>Marco Pedrosa</h4>
+      <div class="contact-role lang-es">Vicepresidente</div>
+      <div class="contact-role lang-en">Vice President</div>
+      <div class="contact-role lang-nl">Vicevoorzitter</div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSetNE2--6V8T4_pPWtSBF5UGoB8z_2L5yzKnV4j0WWNAs2CAQ/viewform?usp=sharing" target="_blank" class="btn-contact">
+        <span class="lang-es">&#128172; Contactar v&iacute;a formulario</span>
+        <span class="lang-en">&#128172; Contact via form</span>
+        <span class="lang-nl">&#128172; Contact via formulier</span>
+      </a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-avatar">FR</div>
+      <h4>Francisco Rivas</h4>
+      <div class="contact-role lang-es">Vicepresidente</div>
+      <div class="contact-role lang-en">Vice President</div>
+      <div class="contact-role lang-nl">Vicevoorzitter</div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSetNE2--6V8T4_pPWtSBF5UGoB8z_2L5yzKnV4j0WWNAs2CAQ/viewform?usp=sharing" target="_blank" class="btn-contact">
+        <span class="lang-es">&#128172; Contactar v&iacute;a formulario</span>
+        <span class="lang-en">&#128172; Contact via form</span>
+        <span class="lang-nl">&#128172; Contact via formulier</span>
+      </a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-avatar">AA</div>
+      <h4>&Aacute;ngeles Alc&aacute;zar</h4>
+      <div class="contact-role lang-es">Administradora &middot; Inmo Alc&aacute;zar</div>
+      <div class="contact-role lang-en">Property Manager &middot; Inmo Alc&aacute;zar</div>
+      <div class="contact-role lang-nl">Beheerder &middot; Inmo Alc&aacute;zar</div>
+      <a href="mailto:ibiza@inmoalcazar.com" class="contact-email">ibiza@inmoalcazar.com</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="lang-es">&copy; 2025 Vista Alegre Suites &middot; Comunidad de Propietarios &middot; Calle Cap Negret, Urbanizaci&oacute;n Vista Alegre, Sant Josep de Sa Talaia, Ibiza</p>
+  <p class="lang-en">&copy; 2025 Vista Alegre Suites &middot; Homeowners Association &middot; Calle Cap Negret, Urbanizaci&oacute;n Vista Alegre, Sant Josep de Sa Talaia, Ibiza</p>
+  <p class="lang-nl">&copy; 2025 Vista Alegre Suites &middot; Vereniging van Eigenaren &middot; Calle Cap Negret, Urbanizaci&oacute;n Vista Alegre, Sant Josep de Sa Talaia, Ibiza</p>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.documentElement.lang = lang === 'nl' ? 'nl' : (lang === 'en' ? 'en' : 'es');
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
+  });
+  localStorage.setItem('vas-lang', lang);
+}
+function toggleAccordion(btn) {
+  const content = btn.nextElementSibling;
+  const isOpen = content.classList.contains('open');
+  document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.accordion-btn').forEach(b => b.classList.remove('active'));
+  if (!isOpen) { content.classList.add('open'); btn.classList.add('active'); }
+}
+function closeMenu() { document.querySelector('.nav-links').classList.remove('open'); }
+document.addEventListener('click', function(e) {
+  const nav = document.querySelector('.nav-links');
+  const hamburger = document.querySelector('.hamburger');
+  if (!nav.contains(e.target) && !hamburger.contains(e.target)) nav.classList.remove('open');
+});
+window.addEventListener('DOMContentLoaded', function() {
+  const saved = localStorage.getItem('vas-lang');
+  if (saved) setLang(saved);
+});
+window.addEventListener('scroll', function() {
+  document.querySelector('nav').style.background = window.scrollY > 50 ? 'rgba(26,35,50,0.98)' : 'rgba(26,35,50,0.95)';
+});
+</script>
+</body>
+</html>
